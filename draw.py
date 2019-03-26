@@ -40,11 +40,20 @@ def add_box( polygons, x, y, z, width, height, depth ):
     add_polygon(polygons, x1, y, z, x1, y1, z1, x1, y, z1)
     add_polygon(polygons, x1, y, z, x1, y1, z, x1, y1, z1)
 
+def crossProduct(Ax, Ay, Az, Bx, By, Bz):
+    return (Ay*Bz - Az*By,
+            Az*Bx - AxBz,
+            Ax*By - Ay*Bx)
+
+
 def add_sphere(polygons, cx, cy, cz, r, step ):
-
-
-    for pts in generate_sphere(cx, cy, cz, r, step):
-        add_edge(polygons, pts[0], pts[1], pts[2], pts[0]+1, pts[1]+1, pts[2]+1)
+    ind = 0
+    arcList = generate_sphere(cx, cy, cz, r, step)
+    while ind < len(arcList):
+        pt2 = (ind+ 22) % len(arcList)
+        pt3 = (ind + 1) % len(arcList)
+        add_polygon(polygons, arcList[ind][0], arcList[ind][1], arcList[ind][2], arcList[pt2][0], arcList[pt2][1], arcList[pt2][2], arcList[pt3][0], arcList[pt3][1], arcList[pt3][2])
+        ind += 1
 
 def generate_sphere( cx, cy, cz, r, step ):
     points = []
@@ -64,8 +73,7 @@ def generate_sphere( cx, cy, cz, r, step ):
             y = r * math.sin(math.pi * circ) * math.cos(2*math.pi * rot) + cy
             z = r * math.sin(math.pi * circ) * math.sin(2*math.pi * rot) + cz
 
-            temp.append([x, y, z])
-        points.append[temp]
+            points.append([x, y, z])
     return points
 
 def add_torus(polygons, cx, cy, cz, r0, r1, step ):
