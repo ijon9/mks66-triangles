@@ -50,7 +50,7 @@ def add_sphere(polygons, cx, cy, cz, r, step ):
     ind = 0
     arcList = generate_sphere(cx, cy, cz, r, step)
     while ind < len(arcList):
-        pt2 = (ind+ 22) % len(arcList)
+        pt2 = (ind+ step+1) % len(arcList)
         pt3 = (ind + 1) % len(arcList)
         add_polygon(polygons, arcList[ind][0], arcList[ind][1], arcList[ind][2], arcList[pt2][0], arcList[pt2][1], arcList[pt2][2], arcList[pt3][0], arcList[pt3][1], arcList[pt3][2])
         ind += 1
@@ -77,23 +77,14 @@ def generate_sphere( cx, cy, cz, r, step ):
     return points
 
 def add_torus(polygons, cx, cy, cz, r0, r1, step ):
-    points = generate_torus(cx, cy, cz, r0, r1, step)
+    ind = 0
+    arcList = generate_torus(cx, cy, cz, r0, r1, step)
 
-    lat_start = 0
-    lat_stop = step
-    longt_start = 0
-    longt_stop = step
-
-    for lat in range(lat_start, lat_stop):
-        for longt in range(longt_start, longt_stop):
-            index = lat * step + longt
-
-            add_edge(polygons, points[index][0],
-                     points[index][1],
-                     points[index][2],
-                     points[index][0]+1,
-                     points[index][1]+1,
-                     points[index][2]+1 )
+    while ind < len(arcList):
+        pt2 = (ind+ step+1) % len(arcList)
+        pt3 = (ind + 1) % len(arcList)
+        add_polygon(polygons, arcList[ind][0], arcList[ind][1], arcList[ind][2], arcList[pt2][0], arcList[pt2][1], arcList[pt2][2], arcList[pt3][0], arcList[pt3][1], arcList[pt3][2])
+        ind += 1
 
 def generate_torus( cx, cy, cz, r0, r1, step ):
     points = []
