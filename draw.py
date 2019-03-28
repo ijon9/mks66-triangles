@@ -41,9 +41,7 @@ def add_box( polygons, x, y, z, width, height, depth ):
     add_polygon(polygons, x1, y, z, x1, y1, z, x1, y1, z1)
 
 def crossProduct(Ax, Ay, Az, Bx, By, Bz):
-    return (Ay*Bz - Az*By,
-            Az*Bx - AxBz,
-            Ax*By - Ay*Bx)
+    return (Ay*Bz - Az*By, Az*Bx - Ax*Bz, Ax*By - Ay*Bx)
 
 
 def add_sphere(polygons, cx, cy, cz, r, step ):
@@ -52,7 +50,10 @@ def add_sphere(polygons, cx, cy, cz, r, step ):
     while ind < len(arcList):
         pt2 = (ind+ step+1) % len(arcList)
         pt3 = (ind + 1) % len(arcList)
-        add_polygon(polygons, arcList[ind][0], arcList[ind][1], arcList[ind][2], arcList[pt2][0], arcList[pt2][1], arcList[pt2][2], arcList[pt3][0], arcList[pt3][1], arcList[pt3][2])
+        vec2 = (arcList[pt2][0] - arcList[ind][0], arcList[pt2][1] - arcList[ind][1], arcList[pt2][2] - arcList[ind][2])
+        vec3 = (arcList[pt3][0] - arcList[ind][0], arcList[pt3][1] - arcList[ind][1], arcList[pt3][2] - arcList[ind][2])
+        if crossProduct(vec2[0], vec2[1], vec2[2], vec3[0], vec3[1], vec3[2])[2] > 0:
+            add_polygon(polygons, arcList[ind][0], arcList[ind][1], arcList[ind][2], arcList[pt2][0], arcList[pt2][1], arcList[pt2][2], arcList[pt3][0], arcList[pt3][1], arcList[pt3][2])
         ind += 1
 
 def generate_sphere( cx, cy, cz, r, step ):
