@@ -10,4 +10,4 @@ edges = []
 polygons = []
 transform = new_matrix()
 
-parse_file( 'myScript', edges, polygons, transform, screen, color )
+parse_file( 'script', edges, polygons, transform, screen, color )
