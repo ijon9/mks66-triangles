@@ -1,0 +1,20 @@
+#test box mesh
+box
+0 0 0 350 300 400
+ident
+rotate
+y 20
+rotate
+x 20
+move
+150 300 0
+apply
+sphere
+100 120 0 30
+sphere
+170 140 0 30
+torus
+200 200 0 25 150
+display
+save
+pic.ppm
